@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klairen — Intelligence for the Cut Flower Supply Chain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F0E8;
+    --bg-2: #EDE7D9;
+    --ink: #1A1410;
+    --ink-soft: #4A3F35;
+    --ink-muted: #8A7A6E;
+    --green: #2D5016;
+    --green-light: #4A7A22;
+    --green-muted: #C8D9B0;
+    --green-pale: #E8F0DC;
+    --amber: #C4861A;
+    --amber-pale: #F5E6C8;
+    --red-soft: #8B2635;
+    --white: #FDFAF4;
+    --border: rgba(26,20,16,0.12);
+    --border-green: rgba(45,80,22,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-links a { color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: var(--green-light); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-pattern {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(45,80,22,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(196,134,26,0.04) 0%, transparent 40%);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+  }
+
+  .hero-left {
+    padding: 80px 48px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative; z-index: 1;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--green);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 5.5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    max-width: 460px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-bottom: 48px;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 4px; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .hero-actions { display: flex; gap: 16px; align-items: center; }
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+  .hero-right {
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  /* SHELF LIFE DIAGRAM */
+  .shelf-diagram {
+    width: 100%;
+    max-width: 480px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 36px;
+    box-shadow: 0 20px 60px rgba(26,20,16,0.08), 0 4px 16px rgba(26,20,16,0.05);
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  .diagram-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 28px;
+  }
+  .diagram-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .diagram-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    background: var(--green-pale);
+    color: var(--green);
+    border: 1px solid var(--border-green);
+  }
+  .diagram-badge.live::before {
+    content: '●';
+    margin-right: 5px;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  .flower-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  }
+  .flower-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    width: 80px;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+  .flower-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-2);
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .flower-bar-fill {
+    height: 100%;
+    border-radius: 0;
+    animation: growBar 1.2s ease-out forwards;
+    transform-origin: left;
+  }
+  @keyframes growBar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .flower-days {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .diagram-divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  .temp-reading {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .temp-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .temp-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--amber);
+  }
+  .temp-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    background: var(--amber-pale);
+    color: var(--amber);
+    border: 1px solid rgba(196,134,26,0.25);
+  }
+
+  .diagram-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 20px;
+  }
+  .mini-stat { display: flex; flex-direction: column; gap: 2px; }
+  .mini-stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--green);
+  }
+  .mini-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 80px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--green);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--green); }
+  .section-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* PROBLEM */
+  #problem { background: var(--ink); }
+  #problem .section-label { color: var(--green-muted); }
+  #problem .section-label::after { background: var(--green-muted); }
+  #problem .section-title { color: var(--white); }
+  #problem .section-title em { color: var(--green-muted); }
+  #problem .section-sub { color: rgba(253,250,244,0.6); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    margin-top: 0;
+  }
+  .problem-card {
+    background: var(--ink);
+    padding: 40px 36px;
+    transition: background 0.3s;
+  }
+  .problem-card:hover { background: #221C18; }
+  .problem-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(200,217,176,0.2);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .problem-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .problem-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(253,250,244,0.55);
+    font-weight: 300;
+  }
+  .problem-card .impact {
+    margin-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--green-muted);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 16px;
+  }
+
+  /* PRODUCT */
+  #product { background: var(--white); }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .product-features { display: flex; flex-direction: column; gap: 0; }
+  .feature-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .feature-item:first-child { border-top: 1px solid var(--border); }
+  .feature-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--green-pale);
+    color: var(--green);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .feature-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .feature-content p {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .feature-tag {
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+
+  /* DASHBOARD MOCKUP */
+  .dashboard-mockup {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(26,20,16,0.1);
+  }
+  .mockup-bar {
+    background: var(--ink);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mockup-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mockup-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mockup-body { padding: 24px; }
+  .mockup-metrics {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px;
+  }
+  .metric-box {
+    background: var(--white);
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .metric-box-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .metric-box-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .mockup-chart {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 16px;
+    height: 120px;
+    display: flex; align-items: flex-end; gap: 6px; overflow: hidden;
+  }
+  .chart-bar {
+    flex: 1;
+    background: var(--green-muted);
+    border-top: 2px solid var(--green);
+    transition: height 0.4s ease;
+    position: relative;
+  }
+  .chart-bar.alert { background: rgba(139,38,53,0.15); border-top-color: var(--red-soft); }
+  .chart-bar.highlight { background: rgba(45,80,22,0.2); border-top-color: var(--green-light); }
+
+  .mockup-shipments { margin-top: 12px; }
+  .shipment-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.78rem;
+  }
+  .shipment-row:last-child { border-bottom: none; }
+  .shipment-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+  }
+  .shipment-life {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+  }
+  .life-ok { color: var(--green); }
+  .life-warn { color: var(--amber); }
+  .life-alert { color: var(--red-soft); }
+  .shipment-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+  }
+  .status-green { background: var(--green-pale); color: var(--green); }
+  .status-amber { background: var(--amber-pale); color: var(--amber); }
+  .status-red { background: rgba(139,38,53,0.1); color: var(--red-soft); }
+
+  /* HOW IT WORKS */
+  #how { background: var(--bg); }
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 0;
+    position: relative;
+  }
+  .steps-row::before {
+    content: '';
+    position: absolute;
+    top: 24px; left: calc(12.5% + 24px); right: calc(12.5% + 24px);
+    height: 1px;
+    background: var(--border);
+  }
+  .step {
+    padding: 0 24px 0 0;
+    position: relative;
+  }
+  .step-num {
+    width: 48px; height: 48px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+  .step h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .step p {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* MARKET */
+  #market { background: var(--green); }
+  #market .section-label { color: rgba(200,217,176,0.7); }
+  #market .section-label::after { background: rgba(200,217,176,0.5); }
+  #market .section-title { color: var(--white); }
+  #market .section-sub { color: rgba(253,250,244,0.65); }
+
+  .market-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 0;
+  }
+  .market-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 36px 28px;
+    transition: background 0.3s;
+  }
+  .market-card:hover { background: rgba(255,255,255,0.11); }
+  .market-card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .market-card-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(200,217,176,0.7);
+    margin-bottom: 16px;
+  }
+  .market-card p {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(253,250,244,0.6);
+    line-height: 1.65;
+  }
+
+  /* FOUNDER */
+  #founder { background: var(--bg-2); }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .founder-portrait {
+    position: relative;
+  }
+  .portrait-frame {
+    width: 280px; height: 320px;
+    background: var(--green-pale);
+    border: 1px solid var(--border-green);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .portrait-frame::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid var(--border-green);
+  }
+  .portrait-initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--green);
+    letter-spacing: -0.04em;
+    font-style: italic;
+  }
+  .portrait-accent {
+    position: absolute;
+    bottom: -8px; right: -8px;
+    width: 280px; height: 320px;
+    border: 1px solid var(--border-green);
+    z-index: -1;
+  }
+
+  .founder-info { padding-top: 8px; }
+  .founder-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .founder-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 32px;
+  }
+  .founder-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    border-left: 2px solid var(--green);
+    padding-left: 24px;
+    margin-bottom: 32px;
+  }
+  .founder-bio {
+    font-size: 0.93rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    margin-bottom: 40px;
+    max-width: 560px;
+  }
+  .founder-links { display: flex; gap: 16px; }
+  .founder-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .founder-link:hover { border-color: var(--green); color: var(--green); }
+
+  /* CTA */
+  #cta {
+    background: var(--ink);
+    padding: 120px 80px;
+    text-align: center;
+  }
+  #cta .section-title { color: var(--white); max-width: 700px; margin: 0 auto 20px; }
+  #cta .section-title em { color: var(--green-muted); }
+  #cta .section-sub { color: rgba(253,250,244,0.5); max-width: 520px; margin: 0 auto 48px; text-align: center; }
+  .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .cta-input-row {
+    display: flex; gap: 0; margin: 0 auto 20px; max-width: 440px;
+  }
+  .cta-input {
+    flex: 1;
+    padding: 14px 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-right: none;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .cta-input::placeholder { color: rgba(255,255,255,0.3); }
+  .cta-input:focus { border-color: rgba(200,217,176,0.4); }
+  .cta-input-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .cta-input-btn:hover { background: var(--green-light); }
+  .cta-small {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 80px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--green-muted); }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--green-muted); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-up.delay-1 { transition-delay: 0.1s; }
+  .fade-up.delay-2 { transition-delay: 0.2s; }
+  .fade-up.delay-3 { transition-delay: 0.3s; }
+  .fade-up.delay-4 { transition-delay: 0.4s; }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: var(--green);
+    padding: 10px 0;
+    overflow: hidden;
+    border-top: 1px solid var(--border-green);
+    border-bottom: 1px solid var(--border-green);
+  }
+  .ticker-track {
+    display: flex;
+    animation: ticker 28s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(253,250,244,0.8);
+    padding: 0 40px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .ticker-item::before {
+    content: '✦';
+    font-size: 0.5rem;
+    color: rgba(253,250,244,0.4);
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 1024px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 32px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 80px 32px 48px; }
+    .hero-right { padding: 20px 32px 72px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .product-grid { grid-template-columns: 1fr; }
+    .steps-row { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .steps-row::before { display: none; }
+    .market-grid { grid-template-columns: 1fr; }
+    .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    #cta { padding: 80px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">klair<span>en</span></a>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#product">Product</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#market">Market</a></li>
+    <li><a href="#founder">Founder</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Request Access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-grid-lines"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Supply Chain Intelligence</div>
+    <h1 class="hero-title">
+      Every flower<br>has a <em>countdown.</em><br>We make it visible.
+    </h1>
+    <p class="hero-sub">
+      Klairen brings shelf life prediction, phytosanitary compliance, demand forecasting, and grower-buyer matching to the $40B global cut flower trade — a supply chain still running on intuition.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">$40B</span>
+        <span class="stat-label">Global Trade</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">72h</span>
+        <span class="stat-label">Average Shelf Life</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">30%</span>
+        <span class="stat-label">Post-Harvest Loss</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Join the Waitlist</a>
+      <a href="#product" class="btn-ghost">See the Platform</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="shelf-diagram">
+      <div class="diagram-header">
+        <div class="diagram-title">Live Shelf Life Monitor</div>
+        <div class="diagram-badge live">Active</div>
+      </div>
+
+      <div class="flower-row">
+        <div class="flower-name">Roses</div>
+        <div class="flower-bar-track">
+          <div class="flower-bar-fill" style="width:78%; background: var(--green-light); animation-delay:0.1s;"></div>
+        </div>
+        <div class="flower-days">9d</div>
+      </div>
+      <div class="flower-row">
+        <div class="flower-name">Tulips</div>
+        <div class="flower-bar-track">
+          <div class="flower-bar-fill" style="width:45%; background: var(--amber); animation-delay:0.2s;"></div>
+        </div>
+        <div class="flower-days">4d</div>
+      </div>
+      <div class="flower-row">
+        <div class="flower-name">Carnations</div>
+        <div class="flower-bar-track">
+          <div class="flower-bar-fill" style="width:88%; background: var(--green-light); animation-delay:0.3s;"></div>
+        </div>
+        <div class="flower-days">11d</div>
+      </div>
+      <div class="flower-row">
+        <div class="flower-name">Lilies</div>
+        <div class="flower-bar-track">
+          <div class="flower-bar-fill" style="width:22%; background: var(--red-soft); animation-delay:0.4s;"></div>
+        </div>
+        <div class="flower-days">2d ⚠</div>
+      </div>
+      <div class="flower-row">
+        <div class="flower-name">Orchids</div>
+        <div class="flower-bar-track">
+          <div class="flower-bar-fill" style="width:65%; background: var(--green-light); animation-delay:0.5s;"></div>
+        </div>
+        <div class="flower-days">7d</div>
+      </div>
+
+      <div class="diagram-divider"></div>
+
+      <div class="temp-reading">
+        <div>
+          <div class="temp-label">Cold Chain Temp</div>
+          <div class="temp-value">6.2°C</div>
+        </div>
+        <div class="temp-status">+0.4° deviation</div>
+      </div>
+
+      <div class="diagram-footer">
+        <div class="mini-stat">
+          <span class="mini-stat-val">94%</span>
+          <span class="mini-stat-label">Forecast Acc.</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-val">18</span>
+          <span class="mini-stat-label">Shipments Live</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-val">3</span>
+          <span class="mini-stat-label">Alerts Today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">Shelf life prediction from temperature + variety data</span>
+    <span class="ticker-item">Phytosanitary compliance automation</span>
+    <span class="ticker-item">Demand forecasting for perishable inventory</span>
+    <span class="ticker-item">Grower-to-buyer matching engine</span>
+    <span class="ticker-item">Cold chain deviation alerts</span>
+    <span class="ticker-item">Import-export intelligence</span>
+    <span class="ticker-item">Shelf life prediction from temperature + variety data</span>
+    <span class="ticker-item">Phytosanitary compliance automation</span>
+    <span class="ticker-item">Demand forecasting for perishable inventory</span>
+    <span class="ticker-item">Grower-to-buyer matching engine</span>
+    <span class="ticker-item">Cold chain deviation alerts</span>
+    <span class="ticker-item">Import-export intelligence</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-title">A $40B trade<br><em>flying blind</em></h2>
+  <p class="section-sub">Cut flowers are the world's most time-sensitive commodity. Yet the industry still routes perishable cargo on guesswork, manual paperwork, and the farmer's gut feeling.</p>
+
+  <div class="problem-grid">
+    <div class="problem-card fade-up">
+      <div class="problem-num">01</div>
+      <h3>Zero Shelf Life Visibility</h3>
+      <p>Flowers move through 6+ hands — grower, packer, freight forwarder, wholesaler, distributor, retailer — with no shared data on remaining vase life. A Nairobi rose has no idea what Amsterdam warehouse temperatures did to its clock.</p>
+      <div class="impact">→ $15B+ in annual post-harvest losses</div>
+    </div>
+    <div class="problem-card fade-up delay-1">
+      <div class="problem-num">02</div>
+      <h3>Compliance as a Blocker</h3>
+      <p>Phytosanitary certificates, ISPM-15 compliance, country-specific pesticide thresholds, and import restrictions differ across every border. A single non-conformance can ground a full shipment within 72 hours of harvest.</p>
+      <div class="impact">→ Rejected shipments cost $8–40K each</div>
+    </div>
+    <div class="problem-card fade-up delay-2">
+      <div class="problem-num">03</div>
+      <h3>Demand & Supply Misalignment</h3>
+      <p>Valentine's Day, Mother's Day, Diwali — demand spikes are predictable, yet overstock and stockouts plague every major event. Buyers can't find the right growers. Growers can't find qualified buyers. The matching layer is WhatsApp.</p>
+      <div class="impact">→ 22% average perishable inventory waste</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="section-label">The Platform</div>
+  <h2 class="section-title">Supply chain<br><em>intelligence</em> — end to end</h2>
+  <p class="section-sub">Four modules. One data layer. Built for growers, exporters, importers, and distributors who can't afford another spoiled shipment.</p>
+
+  <div class="product-grid">
+    <div class="product-features">
+      <div class="feature-item fade-up">
+        <div class="feature-icon">⟁</div>
+        <div class="feature-content">
+          <h3>Shelf Life Engine</h3>
+          <p>Predictive models trained on temperature exposure, variety characteristics, and logistics timelines. Know the remaining vase life of every SKU at every node — before it arrives.</p>
+          <div class="feature-tag">Time-Temperature Integration · Variety Profiles · Cold Chain Monitoring</div>
+        </div>
+      </div>
+      <div class="feature-item fade-up delay-1">
+        <div class="feature-icon">⚑</div>
+        <div class="feature-content">
+          <h3>Compliance Navigator</h3>
+          <p>Automated phytosanitary documentation, country-specific pesticide tolerance checks, and border crossing alerts. Covers 40+ import markets with live regulatory updates.</p>
+          <div class="feature-tag">ISPM-15 · Phytosanitary Certs · Pesticide Thresholds</div>
+        </div>
+      </div>
+      <div class="feature-item fade-up delay-2">
+        <div class="feature-icon">◈</div>
+        <div class="feature-content">
+          <h3>Demand Forecasting</h3>
+          <p>Event-driven demand signals across 60+ markets, layered with seasonal curves, retail POS data, and weather patterns. Know how many stems to order — or grow — three weeks out.</p>
+          <div class="feature-tag">Event Calendar Intelligence · Inventory Optimization · Waste Reduction</div>
+        </div>
+      </div>
+      <div class="feature-item fade-up delay-3">
+        <div class="feature-icon">⇌</div>
+        <div class="feature-content">
+          <h3>Grower–Buyer Match</h3>
+          <p>Verified profiles, quality ratings, and real-time availability data for 800+ growers across Kenya, Ecuador, Colombia, and the Netherlands. Close deals in hours, not weeks.</p>
+          <div class="feature-tag">Verified Growers · Live Availability · Quality Scoring</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="dashboard-mockup fade-up delay-1">
+        <div class="mockup-bar">
+          <div class="mockup-dot" style="background:#FF5F57;"></div>
+          <div class="mockup-dot" style="background:#FEBC2E;"></div>
+          <div class="mockup-dot" style="background:#28C840;"></div>
+          <span class="mockup-title">klairen — shipment dashboard</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-metrics">
+            <div class="metric-box">
+              <div class="metric-box-val" style="color:var(--green);">18</div>
+              <div class="metric-box-label">Active Shipments</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val" style="color:var(--amber);">3</div>
+              <div class="metric-box-label">Life Warnings</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val" style="color:var(--ink);">94%</div>
+              <div class="metric-box-label">Compliance Rate</div>
+            </div>
+          </div>
+          <div class="mockup-chart">
+            <div class="chart-bar" style="height:55%;"></div>
+            <div class="chart-bar" style="height:70%;"></div>
+            <div class="chart-bar highlight" style="height:88%;"></div>
+            <div class="chart-bar" style="height:76%;"></div>
+            <div class="chart-bar alert" style="height:38%;"></div>
+            <div class="chart-bar" style="height:65%;"></div>
+            <div class="chart-bar highlight" style="height:92%;"></div>
+            <div class="chart-bar" style="height:72%;"></div>
+            <div class="chart-bar" style="height:80%;"></div>
+            <div class="chart-bar alert" style="height:30%;"></div>
+            <div class="chart-bar" style="height:58%;"></div>
+            <div class="chart-bar highlight" style="height:85%;"></div>
+          </div>
+          <div class="mockup-shipments">
+            <div class="shipment-row">
+              <span class="shipment-name">Rosa 'Red Naomi' — NBO→AMS</span>
+              <span class="shipment-life life-ok">8d remaining</span>
+              <span class="shipment-status status-green">On Track</span>
+            </div>
+            <div class="shipment-row">
+              <span class="shipment-name">Tulipa 'Pink Impression' — NL→UK</span>
+              <span class="shipment-life life-warn">3d remaining</span>
+              <span class="shipment-status status-amber">Monitor</span>
+            </div>
+            <div class="shipment-row">
+              <span class="shipment-name">Lilium 'Casablanca' — BOG→JFK</span>
+              <span class="shipment-life life-alert">1d remaining</span>
+              <span class="shipment-status status-red">Reroute</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">From farm to<br><em>forecast</em> in minutes</h2>
+  <p class="section-sub" style="margin-bottom: 64px;">Klairen ingests supply chain data at every node and returns actionable intelligence — not dashboards you have to interpret.</p>
+
+  <div class="steps-row">
+    <div class="step fade-up">
+      <div class="step-num">01</div>
+      <h3>Ingest</h3>
+      <p>Connect via API, IoT sensor feed, or manual entry. Temperature logs, variety data, harvest timestamps, and logistics events flow into the Klairen data layer.</p>
+    </div>
+    <div class="step fade-up delay-1">
+      <div class="step-num">02</div>
+      <h3>Predict</h3>
+      <p>The shelf life engine computes remaining vase life per batch using time-temperature integration and variety-specific decay models — recalculated at every leg of the journey.</p>
+    </div>
+    <div class="step fade-up delay-2">
+      <div class="step-num">03</div>
+      <h3>Comply</h3>
+      <p>Automated compliance checks against destination-country phytosanitary requirements. Flags pesticide threshold violations and generates certificate documentation before border crossing.</p>
+    </div>
+    <div class="step fade-up delay-3">
+      <div class="step-num">04</div>
+      <h3>Act</h3>
+      <p>Route deviation alerts, demand-matched reallocation suggestions, and buyer introductions — delivered to the right person, at the right node, before the window closes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market">
+  <div class="section-label">Market Opportunity</div>
+  <h2 class="section-title">A perishable trade<br><em>ready for intelligence</em></h2>
+  <p class="section-sub">The floriculture supply chain is one of the last major commodity verticals without a dedicated intelligence layer. The window is now.</p>
+
+  <div class="market-grid">
+    <div class="market-card fade-up">
+      <div class="market-card-num">$40B</div>
+      <div class="market-card-sub">Global Cut Flower Market</div>
+      <p>Kenya, Ecuador, Colombia, and the Netherlands dominate export supply. The EU and US represent over 60% of import demand. Cross-border flows create the compliance complexity Klairen resolves.</p>
+    </div>
+    <div class="market-card fade-up delay-1">
+      <div class="market-card-num">4.8%</div>
+      <div class="market-card-sub">CAGR Through 2035</div>
+      <p>Growth driven by e-commerce floristry, urbanization in Asia-Pacific and Middle East, and rising demand for sustainably certified and premium varieties — all creating more complex supply chains.</p>
+    </div>
+    <div class="market-card fade-up delay-2">
+      <div class="market-card-num">~0</div>
+      <div class="market-card-sub">Dedicated SaaS Competitors</div>
+      <p>The space is served by generic cold-chain tools, spreadsheets, and WhatsApp. No purpose-built floriculture intelligence platform exists at scale. Klairen is building that category from scratch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section id="founder">
+  <div class="section-label">Founder</div>
+  <div class="founder-grid">
+    <div class="founder-portrait fade-up">
+      <div class="portrait-frame">
+        <span class="portrait-initials">SB</span>
+      </div>
+      <div class="portrait-accent"></div>
+    </div>
+    <div class="founder-info fade-up delay-1">
+      <h2 class="founder-name">Shiv Bhushan</h2>
+      <div class="founder-role">Founder & CEO, Klairen</div>
+      <blockquote class="founder-quote">
+        "The people who grow the world's most beautiful product have the least visibility into whether it will survive the journey to the person who ordered it."
+      </blockquote>
+      <p class="founder-bio">
+        Shiv Bhushan founded Klairen after working with floriculture exporters and observing firsthand how a $40B trade was running on intuition, WhatsApp, and paper certificates. His background spans supply chain systems design, perishables logistics, and agri-tech — with a specific focus on the intersection of cold chain data and perishable commodity markets.
+      </p>
+      <p class="founder-bio" style="margin-top: -16px;">
+        Klairen was built from a simple observation: every supply chain decision in the flower industry is downstream of shelf life — and yet almost no one in the chain knows it in real time. Shiv is changing that with purpose-built intelligence for growers, exporters, importers, and distributors who operate in the most time-critical trade on earth.
+      </p>
+      <div class="founder-links">
+        <a href="mailto:shiv@klairen.com" class="founder-link">Contact Shiv</a>
+        <a href="#cta" class="founder-link">Request Early Access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="section-label" style="justify-content:center; color:rgba(200,217,176,0.6);">Early Access</div>
+  <h2 class="section-title">Be first to know<br>when your flowers <em>won't make it.</em></h2>
+  <p class="section-sub">Join growers, exporters, and distributors building the next layer of the global flower supply chain.</p>
+  <div class="cta-input-row">
+    <input class="cta-input" type="email" placeholder="your@company.com">
+    <button class="cta-input-btn">Join Waitlist</button>
+  </div>
+  <div class="cta-small">No spam · Early access pricing · Cancel anytime</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">klair<span>en</span></div>
+  <div class="footer-copy">© 2026 Klairen. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#problem">Problem</a>
+    <a href="#product">Product</a>
+    <a href="#founder">Founder</a>
+    <a href="mailto:shiv@klairen.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Animate chart bars on scroll
+  const chartObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.chart-bar').forEach((bar, i) => {
+          bar.style.transition = `height 0.5s ease ${i * 0.06}s`;
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const mockup = document.querySelector('.mockup-chart');
+  if (mockup) chartObserver.observe(mockup);
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 60) {
+      nav.style.boxShadow = '0 4px 24px rgba(26,20,16,0.08)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+</script>
+</body>
+</html>
